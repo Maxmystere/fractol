@@ -17,15 +17,17 @@
 # include <stdlib.h>
 # include <math.h>
 # include <fcntl.h>
+# include <pthread.h>
 # include "../libft/libft.h"
 
 /*
 ** Bonus include
 */
 
-# define WINX 1500
-# define WINY 1000
-# define CAMSPEED 3
+# define MAX_ITER 142
+# define WINX 500
+# define WINY 500
+# define CAMSPEED 1
 # define ZOOMSPEED 1
 
 /*
@@ -102,6 +104,8 @@ void			test_draw(t_fdf *fdf, int x, int y);
 
 t_pos			*init_value(int x, int y, int z, int c);
 t_fdf			*init_mlx(int winnb, char **winname);
+
+void			draw_mandel(t_fdf *fdf, t_cam pos);
 
 void			draw_order(t_fdf *fdf, int x, int y, int c);
 void			*draw_tilt(t_fdf *fdf, t_map **tab, t_cam pos);

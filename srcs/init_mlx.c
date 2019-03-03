@@ -18,23 +18,18 @@
 
 static void basic_cam(t_fdf *fdf)
 {
-	fdf->cam.x = fdf->p_win.sx / 2;
-	fdf->cam.y = fdf->p_win.sy / 2;
+	//fdf->cam.x = fdf->p_win.sx / 2;
+	//fdf->cam.y = fdf->p_win.sy / 2;
+	fdf->cam.x = 0;
+	fdf->cam.y = 0;
 	fdf->cam.z = 1;
 }
 
 static int load_imgs(t_fdf *fdf)
 {
-	int x;
-
-	x = 0;
-	while (x < MAXP)
-	{
-		if (!(fdf->img = mlx_new_image(fdf->mlx,
-										  fdf->p_win.sx, fdf->p_win.sy)))
-			return (-1);
-		x++;
-	}
+	if (!(fdf->img = mlx_new_image(fdf->mlx,
+										fdf->p_win.sx, fdf->p_win.sy)))
+		return (-1);
 	return (0);
 }
 

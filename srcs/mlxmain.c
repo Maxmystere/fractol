@@ -90,6 +90,7 @@ int				main(int ac, char **av)
 		if (fdf[x].win)
 		{
 			show_menu(&(fdf[x]));
+			draw_mandel(fdf, fdf->cam);
 			mlx_hook(fdf[x].win, 2, 0, key_press, &(fdf[x]));
 			mlx_hook(fdf[x].win, 3, 0, key_release, &(fdf[x]));
 			//mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));

@@ -22,6 +22,7 @@ SRC-C		=	./srcs/camera_movement.c \
 				./srcs/mlxmain.c \
 				./srcs/program_close.c \
 				./srcs/order_drawer.c \
+				./srcs/draw_mandel.c
 
 SRC-O		=	$(patsubst ./srcs/%.c, %.o, $(SRC-C))
 

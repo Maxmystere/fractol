@@ -37,7 +37,6 @@ static void		lil_loop(t_fdf *fdf, int mkey, int willshowmenu)
 	pos = fdf->keys;
 	while (pos)
 	{
-		mlx_clear_window(fdf->mlx, fdf->win);
 		mkey = pos->data;
 		if (mkey == 46)
 			willshowmenu++;
@@ -45,8 +44,9 @@ static void		lil_loop(t_fdf *fdf, int mkey, int willshowmenu)
 		if (mkey == 18 || mkey == 19 || mkey == 20)
 			ft_noderm_int(&(fdf->keys), mkey);
 		pos = pos->next;
-		draw_text(fdf, 0, 0);
 	}
+	draw_mandel(fdf, fdf->cam);
+	draw_text(fdf, 0, 0);
 	if (willshowmenu)
 		show_menu(fdf);
 }
