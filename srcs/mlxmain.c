@@ -1,0 +1,105 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlxmain.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/16 16:32:14 by tferrieu          #+#    #+#             */
+/*   Updated: 2019/02/24 16:07:37 by tferrieu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/fractol.h"
+
+static void		draw_more(t_fdf *fdf, int x, int y)
+{
+	char	*tmp;
+	char	*nbstr;
+
+	nbstr = ft_itoa(fdf->cam.z);
+	tmp = ft_strjoin("Zoom : ", nbstr);
+	mlx_string_put(fdf->mlx, fdf->win, 50, y + 100, 0xf44336, tmp);
+	free(nbstr);
+	free(tmp);
+	(void)x;
+}
+
+void			draw_text(t_fdf *fdf, int x, int y)
+{
+	char *tmp;
+	char *nbstr;
+
+	draw_order(fdf, fdf->p_win.sx - 50, fdf->p_win.sy - 50, 0x500b00);
+	draw_order(fdf, fdf->p_win.sx - 49, fdf->p_win.sy - 49, 0xff6950);
+	draw_order(fdf, fdf->p_win.sx - 49, fdf->p_win.sy - 50, 0xff6950);
+	draw_order(fdf, fdf->p_win.sx - 50, fdf->p_win.sy - 49, 0xff6950);
+	nbstr = ft_itoa(-fdf->cam.x);
+	tmp = ft_strjoin("X : ", nbstr);
+	mlx_string_put(fdf->mlx, fdf->win, 50, y + 50, 0xf44336, tmp);
+	free(nbstr);
+	free(tmp);
+	nbstr = ft_itoa(-fdf->cam.y);
+	tmp = ft_strjoin("Y : ", nbstr);
+	mlx_string_put(fdf->mlx, fdf->win, 50, y + 75, 0xf44336, tmp);
+	free(nbstr);
+	free(tmp);
+	draw_more(fdf, x, y);
+}
+
+void			show_menu(t_fdf *fdf)
+{
+	int y;
+
+	y = fdf->p_win.sy - 60;
+	mlx_string_put(fdf->mlx, fdf->win, 15, y - 213, 0x7f8c8d,
+								"_______________________________________");
+	mlx_string_put(fdf->mlx, fdf->win, 10, y - 192, 0xe74c3c, "   Tutorial");
+	mlx_string_put(fdf->mlx, fdf->win, 15, y - 185, 0x7f8c8d,
+								"_______________________________________");
+	mlx_string_put(fdf->mlx, fdf->win, 10, y - 160, 0xFFFFFF,
+								"   Change Projection : 1, 2, 3");
+	mlx_string_put(fdf->mlx, fdf->win, 10, y - 140, 0xFFFFFF,
+								"   Press current Projection to rotate");
+	mlx_string_put(fdf->mlx, fdf->win, 10, y - 120, 0xFFFFFF,
+								"   Move : Arrow Keys or Mouse Press");
+	mlx_string_put(fdf->mlx, fdf->win, 10, y - 100, 0xFFFFFF,
+								"   Change Altitude : + / -");
+	mlx_string_put(fdf->mlx, fdf->win, 10, y - 80, 0xFFFFFF,
+								"   Zoom in/out : 8 / 2 (NUMPAD)");
+	mlx_string_put(fdf->mlx, fdf->win, 40, y - 60, 0xFFFFFF, "Show Menu : M");
+	mlx_string_put(fdf->mlx, fdf->win, 40, y - 20, 0xbdc3c7, "Quit : Esc");
+	mlx_string_put(fdf->mlx, fdf->win, 15, y - 8, 0x7f8c8d,
+								"_______________________________________");
+	while ((y -= 17) > fdf->p_win.sy - 265)
+		mlx_string_put(fdf->mlx, fdf->win, 10, y + 5, 0x7f8c8d,
+								"|                                      |");
+}
+
+int				main(int ac, char **av)
+{
+	t_fdf	*fdf;
+	int		x;
+
+	if (!(fdf = init_mlx(ac, av)))
+		return (-1);
+	x = -1;
+	mlx_do_key_autorepeatoff(fdf->mlx);
+	while (++x < ac - 1)
+	{
+		if (fdf[x].win)
+		{
+			show_menu(&(fdf[x]));
+			mlx_hook(fdf[x].win, 2, 0, key_press, &(fdf[x]));
+			mlx_hook(fdf[x].win, 3, 0, key_release, &(fdf[x]));
+			//mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));
+			//mlx_hook(fdf[x].win, 5, 0, mouse_release, &(fdf[x]));
+			//mlx_hook(fdf[x].win, 6, 0, mouse_move, &(fdf[x]));
+			mlx_hook(fdf[x].win, 17, 0, close_hook, &(fdf[x]));
+		}
+	}
+	mlx_loop_hook(fdf->mlx, loop_hook, fdf);
+	if (ac > 1)
+		mlx_loop(fdf[0].mlx);
+	return (0);
+}

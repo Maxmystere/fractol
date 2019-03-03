@@ -1,0 +1,7 @@
+a.out
+fdf
+*.o
+*.swp
+.DS_Store
+.vscode
+*.dSYM
