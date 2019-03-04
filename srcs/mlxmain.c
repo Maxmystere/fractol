@@ -6,7 +6,7 @@
 /*   By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/16 16:32:14 by tferrieu          #+#    #+#             */
-/*   Updated: 2019/02/24 16:07:37 by tferrieu         ###   ########.fr       */
+/*   Updated: 2019/03/04 21:33:06 by magrab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int				main(int ac, char **av)
 
 	if (!(fdf = init_mlx(ac, av)))
 	{
-		ft_putstr("Usage: fractol mandelbrot / julia / burningship");
+		ft_putstr("Usage: fractol mandelbrot / julia / burningship\n");
 		return (-1);
 	}
 	x = -1;
