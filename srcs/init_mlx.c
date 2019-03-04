@@ -22,7 +22,8 @@ static void basic_cam(t_fdf *fdf)
 	//fdf->cam.y = fdf->p_win.sy / 2;
 	fdf->cam.x = 0;
 	fdf->cam.y = 0;
-	fdf->cam.z = 1;
+	fdf->cam.z = 150;
+	fdf->cam.iter = MAX_ITER;
 }
 
 static int load_imgs(t_fdf *fdf)
@@ -30,6 +31,7 @@ static int load_imgs(t_fdf *fdf)
 	if (!(fdf->img = mlx_new_image(fdf->mlx,
 										fdf->p_win.sx, fdf->p_win.sy)))
 		return (-1);
+	fdf->istr = (int *) mlx_get_data_addr(fdf->img, &(fdf->bpp), &(fdf->s_l), &(fdf->e));
 	return (0);
 }
 
@@ -40,6 +42,7 @@ static void short_load(void *mlx, t_fdf *fdf, size_t v)
 	fdf[v].p_win.sy = WINY;
 	fdf[v].p_win.nb = v;
 	fdf[v].keys = NULL;
+	fdf[v].color = 0xF0F0F0;
 }
 
 static int load_all(void *mlx, t_fdf *fdf, int winnb, char **winname)

@@ -41,8 +41,11 @@ static void		lil_loop(t_fdf *fdf, int mkey, int willshowmenu)
 		if (mkey == 46)
 			willshowmenu++;
 		move_iso(fdf, mkey);
-		if (mkey == 18 || mkey == 19 || mkey == 20)
+		if ( 18 <= mkey && mkey <= 23)
+		{
+			change_color(fdf, mkey);
 			ft_noderm_int(&(fdf->keys), mkey);
+		}
 		pos = pos->next;
 	}
 	draw_mandel(fdf, fdf->cam);

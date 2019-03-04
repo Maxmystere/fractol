@@ -13,6 +13,7 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
+# include <pthread.h>
 # include <mlx.h>
 # include <stdlib.h>
 # include <math.h>
@@ -22,30 +23,23 @@
 
 /*
 ** Bonus include
+	MY ITER 142
 */
 
-# define MAX_ITER 142
-# define WINX 500
-# define WINY 500
+# define MAX_ITER 44
+# define WINX 1500
+# define WINY 1000
 # define CAMSPEED 1
 # define ZOOMSPEED 1
 
-/*
-** Maximum number of projections
-*/
-
-# define ISO 0
-# define MAXP 1
+# define MANDEL 0
+# define JULIA 1
+# define BSHIP 2
 
 typedef struct	s_dot{
 	int x;
 	int y;
 }				t_dot;
-
-typedef struct	s_map{
-	int	z;
-	int	c;
-}				t_map;
 
 typedef struct	s_pos{
 	int x;
@@ -64,7 +58,8 @@ typedef struct	s_win{
 typedef struct	s_cam{
 	int		x;
 	int		y;
-	int		z;
+	double	z;
+	int		iter;
 }				t_cam;
 
 typedef struct	s_fdf{
@@ -79,7 +74,13 @@ typedef struct	s_fdf{
 	int		s_l;
 	int		e;
 	t_win	p_win;
+	int		color;
 }				t_fdf;
+
+typedef struct	s_th{
+	t_fdf	*fdf;
+	int		th;
+}				t_th;
 
 /*
 ** void			*g_mlx(int setup);
@@ -89,6 +90,7 @@ typedef struct	s_fdf{
 void			show_menu(t_fdf *fdf);
 
 t_cam			move_iso(t_fdf *fdf, int key);
+void			change_color(t_fdf *fdf, int key);
 
 int				key_press(int key, t_fdf *fdf);
 int				key_release(int key, t_fdf *fdf);
@@ -108,8 +110,6 @@ t_fdf			*init_mlx(int winnb, char **winname);
 void			draw_mandel(t_fdf *fdf, t_cam pos);
 
 void			draw_order(t_fdf *fdf, int x, int y, int c);
-void			*draw_tilt(t_fdf *fdf, t_map **tab, t_cam pos);
-void			*draw_flat(t_fdf *fdf, t_map **tab, t_cam pos);
 void			draw_text(t_fdf *fdf, int x, int y);
 
 int				close_hook(t_fdf *fdf);

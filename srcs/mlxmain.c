@@ -17,9 +17,14 @@ static void		draw_more(t_fdf *fdf, int x, int y)
 	char	*tmp;
 	char	*nbstr;
 
-	nbstr = ft_itoa(fdf->cam.z);
-	tmp = ft_strjoin("Zoom : ", nbstr);
+	nbstr = ft_itoa(fdf->cam.iter);
+	tmp = ft_strjoin("iter : ", nbstr);
 	mlx_string_put(fdf->mlx, fdf->win, 50, y + 100, 0xf44336, tmp);
+	free(nbstr);
+	free(tmp);
+	nbstr = ft_itoa(fdf->cam.z);
+	tmp = ft_strjoin("zoom : ", nbstr);
+	mlx_string_put(fdf->mlx, fdf->win, 50, y + 120, 0xf44336, tmp);
 	free(nbstr);
 	free(tmp);
 	(void)x;
