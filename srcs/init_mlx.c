@@ -34,29 +34,35 @@ static void		short_load(void *mlx, t_fdf *fdf, size_t v)
 	fdf[v].p_win.nb = v;
 	fdf[v].keys = NULL;
 	fdf[v].color = 0xF0F0F0;
-	fdf[v].cam.x = fdf[v].p_win.sx / 4;
-	fdf[v].cam.y = fdf[v].p_win.sy / 4;
+	fdf[v].cam.x = (fdf[v].fractype == JULIA ? 0 : fdf[v].p_win.sx / 4);
+	fdf[v].cam.y = (fdf[v].fractype == JULIA ? 0 : fdf[v].p_win.sy / 4);
+	if (fdf[v].fractype == JULIA)
+	{
+		fdf[v].mouse.x = -fdf[v].p_win.sx / 2;
+		fdf[v].mouse.y = -fdf[v].p_win.sy / 2;
+	}
 	fdf[v].cam.z = 150;
 	fdf[v].cam.iter = MAX_ITER;
 }
 
-static int		searchtype(t_fdf *fdf, char *winname)
+static int		searchtype(t_fdf *fdf, char *winname, int v)
 {
 	if (!(ft_strcmp("mandelbrot", winname)))
 	{
-		fdf->fractype = MANDEL;
+		fdf[v].fractype = MANDEL;
 		return (1);
 	}
 	else if (!(ft_strcmp("julia", winname)))
 	{
-		fdf->fractype = JULIA;
+		fdf[v].fractype = JULIA;
 		return (1);
 	}
 	else if (!(ft_strcmp("burningship", winname)))
 	{
-		fdf->fractype = BSHIP;
+		fdf[v].fractype = BSHIP;
 		return (1);
 	}
+	fdf[v].fractype = -1;
 	return (0);
 }
 
@@ -70,7 +76,7 @@ static int		load_all(void *mlx, t_fdf *fdf, int winnb, char **winname)
 	while (++v < winnb - 1)
 	{
 		fdf[v].mlx = mlx;
-		if (!(searchtype(fdf, winname[v + 1])))
+		if (!(searchtype(fdf, winname[v + 1], v)))
 			ft_printf("Error : %s invalid\n", winname[v + 1]);
 		else if (++winopened)
 		{

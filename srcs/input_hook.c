@@ -34,6 +34,11 @@ int	key_press(int key, t_fdf *fdf)
 {
 	if (key == 53)
 		return (close_hook(fdf));
+	if (key == 35)
+	{
+		fdf->cam.x = 0;
+		fdf->cam.y = 0;
+	}
 	if (18 <= key && key <= 20)
 		fdf->mouse.x = 0;
 	if (key != 46 || !ft_nodesearch_int(fdf->keys, 46))
@@ -65,8 +70,15 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 	else if (button == 4 || button == 5)
 	{
 		move_iso(fdf, (button == 4 ? -4 : -5));
-		draw_mandel(fdf);
+		if (fdf->fractype == MANDEL)
+			draw_mandel(fdf);
+		else if (fdf->fractype == JULIA)
+			draw_julia(fdf);
+		else if (fdf->fractype == BSHIP)
+			draw_ship(fdf);
 		draw_text(fdf, 0, 0);
+		if (ft_nodesearch_int(fdf->keys, 46))
+			show_menu(fdf);
 	}
 	return (0);
 }
@@ -75,7 +87,7 @@ int	mouse_release(int button, int x, int y, t_fdf *fdf)
 {
 	(void)x;
 	(void)y;
-	if (button == 1)
+	if (button == 1 && fdf->fractype != JULIA)
 	{
 		fdf->mouse.x = 0;
 		fdf->mouse.y = 0;

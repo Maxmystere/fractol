@@ -26,9 +26,9 @@
 	MY ITER 142
 */
 
-# define MAX_ITER 44
-# define WINX 1500
-# define WINY 1000
+# define MAX_ITER 42
+# define WINX 1000
+# define WINY 750
 # define CAMSPEED 1
 # define ZOOMSPEED 1
 

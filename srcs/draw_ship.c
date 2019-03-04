@@ -22,13 +22,11 @@ static int	calc_color(double pr, double pi, t_cam pos)
 
     new_r = 0;
     new_i = 0;
-    old_i = 0;
-    old_r = 0;
     i = 0;
     while ((new_r * new_r + new_i * new_i) < 4.0 && i < pos.iter)
     {
-        old_r = new_r;
-        old_i = new_i;
+        old_r = fabs(new_r);
+        old_i = fabs(new_i);
         new_r = old_r * old_r - old_i * old_i + pr;
         new_i = 2.0 * old_r * old_i + pi;
         i++;

@@ -98,7 +98,12 @@ int				main(int ac, char **av)
 		if (fdf[x].win)
 		{
 			show_menu(&(fdf[x]));
-			draw_mandel(&(fdf[x]));
+			if (fdf[x].fractype == MANDEL)
+				draw_mandel(&(fdf[x]));
+			else if (fdf[x].fractype == JULIA)
+				draw_julia(&(fdf[x]));
+			else if (fdf[x].fractype == BSHIP)
+				draw_ship(&(fdf[x]));
 			mlx_hook(fdf[x].win, 2, 0, key_press, &(fdf[x]));
 			mlx_hook(fdf[x].win, 3, 0, key_release, &(fdf[x]));
 			mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));
