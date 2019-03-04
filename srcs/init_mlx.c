@@ -18,8 +18,7 @@
 
 static int		load_imgs(t_fdf *fdf)
 {
-	if (!(fdf->img = mlx_new_image(fdf->mlx,
-								   fdf->p_win.sx, fdf->p_win.sy)))
+	if (!(fdf->img = mlx_new_image(fdf->mlx, fdf->p_win.sx, fdf->p_win.sy)))
 		return (-1);
 	fdf->istr = (int *)mlx_get_data_addr(fdf->img, &(fdf->bpp),
 												&(fdf->s_l), &(fdf->e));
@@ -80,13 +79,13 @@ static int		load_all(void *mlx, t_fdf *fdf, int winnb, char **winname)
 			ft_printf("Error : %s invalid\n", winname[v + 1]);
 		else if (++winopened)
 		{
-		short_load(mlx, fdf, v);
-		fdf[v].p_win.title = winname[v + 1];
-		if (!(fdf[v].win = mlx_new_window(mlx, fdf[v].p_win.sx,
-										fdf[v].p_win.sy, winname[v + 1])))
-			return (-1);
-		if (load_imgs(&(fdf[v])) != 0)
-			return (-1);
+			short_load(mlx, fdf, v);
+			fdf[v].p_win.title = winname[v + 1];
+			if (!(fdf[v].win = mlx_new_window(mlx, fdf[v].p_win.sx,
+											fdf[v].p_win.sy, winname[v + 1])))
+				return (-1);
+			if (load_imgs(&(fdf[v])) != 0)
+				return (-1);
 		}
 	}
 	return (winopened);
@@ -94,8 +93,8 @@ static int		load_all(void *mlx, t_fdf *fdf, int winnb, char **winname)
 
 t_fdf			*init_mlx(int winnb, char **winname)
 {
-	t_fdf *fdf;
-	void *mlx;
+	t_fdf	*fdf;
+	void	*mlx;
 
 	if (winnb < 2)
 		return (NULL);

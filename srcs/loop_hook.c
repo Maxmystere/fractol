@@ -41,7 +41,7 @@ static void		lil_loop(t_fdf *fdf, int mkey, int willshowmenu)
 		if (mkey == 46)
 			willshowmenu++;
 		move_iso(fdf, mkey);
-		if ( 18 <= mkey && mkey <= 23)
+		if (18 <= mkey && mkey <= 23)
 		{
 			change_color(fdf, mkey);
 			ft_noderm_int(&(fdf->keys), mkey);

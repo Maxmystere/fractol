@@ -63,15 +63,15 @@ void			show_menu(t_fdf *fdf)
 	mlx_string_put(fdf->mlx, fdf->win, 15, y - 185, 0x7f8c8d,
 								"_______________________________________");
 	mlx_string_put(fdf->mlx, fdf->win, 10, y - 160, 0xFFFFFF,
-								"   Change Projection : 1, 2, 3");
+								"   Change color : 1, 2, 3, 4, 5, 6");
 	mlx_string_put(fdf->mlx, fdf->win, 10, y - 140, 0xFFFFFF,
-								"   Press current Projection to rotate");
+								"   Press P to reset position");
 	mlx_string_put(fdf->mlx, fdf->win, 10, y - 120, 0xFFFFFF,
 								"   Move : Arrow Keys or Mouse Press");
 	mlx_string_put(fdf->mlx, fdf->win, 10, y - 100, 0xFFFFFF,
-								"   Change Altitude : + / -");
+								"   Zoom in/out : + / -");
 	mlx_string_put(fdf->mlx, fdf->win, 10, y - 80, 0xFFFFFF,
-								"   Zoom in/out : 8 / 2 (NUMPAD)");
+								"   Change interatiom : 8 / 2 (NUMPAD)");
 	mlx_string_put(fdf->mlx, fdf->win, 40, y - 60, 0xFFFFFF, "Show Menu : M");
 	mlx_string_put(fdf->mlx, fdf->win, 40, y - 20, 0xbdc3c7, "Quit : Esc");
 	mlx_string_put(fdf->mlx, fdf->win, 15, y - 8, 0x7f8c8d,
@@ -79,6 +79,23 @@ void			show_menu(t_fdf *fdf)
 	while ((y -= 17) > fdf->p_win.sy - 265)
 		mlx_string_put(fdf->mlx, fdf->win, 10, y + 5, 0x7f8c8d,
 								"|                                      |");
+}
+
+static void		lilmain(t_fdf *fdf, int x)
+{
+	show_menu(&(fdf[x]));
+	if (fdf[x].fractype == MANDEL)
+		draw_mandel(&(fdf[x]));
+	else if (fdf[x].fractype == JULIA)
+		draw_julia(&(fdf[x]));
+	else if (fdf[x].fractype == BSHIP)
+		draw_ship(&(fdf[x]));
+	mlx_hook(fdf[x].win, 2, 0, key_press, &(fdf[x]));
+	mlx_hook(fdf[x].win, 3, 0, key_release, &(fdf[x]));
+	mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));
+	mlx_hook(fdf[x].win, 5, 0, mouse_release, &(fdf[x]));
+	mlx_hook(fdf[x].win, 6, 0, mouse_move, &(fdf[x]));
+	mlx_hook(fdf[x].win, 17, 0, close_hook, &(fdf[x]));
 }
 
 int				main(int ac, char **av)
@@ -97,19 +114,7 @@ int				main(int ac, char **av)
 	{
 		if (fdf[x].win)
 		{
-			show_menu(&(fdf[x]));
-			if (fdf[x].fractype == MANDEL)
-				draw_mandel(&(fdf[x]));
-			else if (fdf[x].fractype == JULIA)
-				draw_julia(&(fdf[x]));
-			else if (fdf[x].fractype == BSHIP)
-				draw_ship(&(fdf[x]));
-			mlx_hook(fdf[x].win, 2, 0, key_press, &(fdf[x]));
-			mlx_hook(fdf[x].win, 3, 0, key_release, &(fdf[x]));
-			mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));
-			mlx_hook(fdf[x].win, 5, 0, mouse_release, &(fdf[x]));
-			mlx_hook(fdf[x].win, 6, 0, mouse_move, &(fdf[x]));
-			mlx_hook(fdf[x].win, 17, 0, close_hook, &(fdf[x]));
+			lilmain(fdf, x);
 		}
 	}
 	mlx_loop_hook(fdf->mlx, loop_hook, fdf);

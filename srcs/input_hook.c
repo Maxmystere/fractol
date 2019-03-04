@@ -97,7 +97,8 @@ int	mouse_release(int button, int x, int y, t_fdf *fdf)
 
 int	mouse_move(int x, int y, t_fdf *fdf)
 {
-	if (fdf->mouse.x && 0 < x && x < fdf->p_win.sx && 0 < y && y < fdf->p_win.sy)
+	if (fdf->mouse.x && 0 < x && x < fdf->p_win.sx &&
+						0 < y && y < fdf->p_win.sy)
 	{
 		fdf->cam.x = (fdf->mouse.x + x) / 2;
 		fdf->cam.y = (fdf->mouse.y + y) / 2;

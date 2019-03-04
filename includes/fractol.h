@@ -23,7 +23,6 @@
 
 /*
 ** Bonus include
-	MY ITER 142
 */
 
 # define MAX_ITER 42
