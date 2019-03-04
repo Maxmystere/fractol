@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_mandel.c                                      :+:      :+:    :+:   */
+/*   draw_ship.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: magrab <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/03 15:57:12 by magrab            #+#    #+#             */
-/*   Updated: 2019/03/03 15:57:14 by magrab           ###   ########.fr       */
+/*   Created: 2019/03/04 19:47:03 by magrab            #+#    #+#             */
+/*   Updated: 2019/03/04 19:47:04 by magrab           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	*draw_part(void *arg)
 	pthread_exit(NULL);
 }
 
-void		draw_mandel(t_fdf *fdf)
+void		draw_ship(t_fdf *fdf)
 {
 	pthread_t	threads[4];
 	t_th		pth[4];

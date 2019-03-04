@@ -87,7 +87,10 @@ int				main(int ac, char **av)
 	int		x;
 
 	if (!(fdf = init_mlx(ac, av)))
+	{
+		ft_putstr("Usage: fractol mandelbrot / julia / burningship");
 		return (-1);
+	}
 	x = -1;
 	mlx_do_key_autorepeatoff(fdf->mlx);
 	while (++x < ac - 1)
@@ -95,12 +98,12 @@ int				main(int ac, char **av)
 		if (fdf[x].win)
 		{
 			show_menu(&(fdf[x]));
-			draw_mandel(fdf, fdf->cam);
+			draw_mandel(&(fdf[x]));
 			mlx_hook(fdf[x].win, 2, 0, key_press, &(fdf[x]));
 			mlx_hook(fdf[x].win, 3, 0, key_release, &(fdf[x]));
-			//mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));
-			//mlx_hook(fdf[x].win, 5, 0, mouse_release, &(fdf[x]));
-			//mlx_hook(fdf[x].win, 6, 0, mouse_move, &(fdf[x]));
+			mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));
+			mlx_hook(fdf[x].win, 5, 0, mouse_release, &(fdf[x]));
+			mlx_hook(fdf[x].win, 6, 0, mouse_move, &(fdf[x]));
 			mlx_hook(fdf[x].win, 17, 0, close_hook, &(fdf[x]));
 		}
 	}

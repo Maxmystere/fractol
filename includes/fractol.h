@@ -75,6 +75,7 @@ typedef struct	s_fdf{
 	int		e;
 	t_win	p_win;
 	int		color;
+	int		fractype;
 }				t_fdf;
 
 typedef struct	s_th{
@@ -107,7 +108,9 @@ void			test_draw(t_fdf *fdf, int x, int y);
 t_pos			*init_value(int x, int y, int z, int c);
 t_fdf			*init_mlx(int winnb, char **winname);
 
-void			draw_mandel(t_fdf *fdf, t_cam pos);
+void			draw_mandel(t_fdf *fdf);
+void			draw_julia(t_fdf *fdf);
+void			draw_ship(t_fdf *fdf);
 
 void			draw_order(t_fdf *fdf, int x, int y, int c);
 void			draw_text(t_fdf *fdf, int x, int y);

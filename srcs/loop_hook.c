@@ -48,7 +48,12 @@ static void		lil_loop(t_fdf *fdf, int mkey, int willshowmenu)
 		}
 		pos = pos->next;
 	}
-	draw_mandel(fdf, fdf->cam);
+	if (fdf->fractype == MANDEL)
+		draw_mandel(fdf);
+	else if (fdf->fractype == JULIA)
+		draw_julia(fdf);
+	else if (fdf->fractype == BSHIP)
+		draw_ship(fdf);
 	draw_text(fdf, 0, 0);
 	if (willshowmenu)
 		show_menu(fdf);

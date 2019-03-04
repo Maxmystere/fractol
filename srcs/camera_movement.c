@@ -47,9 +47,9 @@ void	change_color(t_fdf *fdf, int key)
 
 t_cam	move_iso(t_fdf *fdf, int key)
 {
-	if (key == 69)
+	if (key == 69 || key == -4)
 		fdf->cam.z += ZOOMSPEED + fdf->cam.z / 50;
-	else if (key == 78 && 10 < fdf->cam.z - 1)
+	else if ((key == 78 || key == -5) && 10 < fdf->cam.z - 1)
 		fdf->cam.z -= ZOOMSPEED + fdf->cam.z / 50;
 	else if (key == 84 && 0 < fdf->cam.iter - 1)
 		fdf->cam.iter--;

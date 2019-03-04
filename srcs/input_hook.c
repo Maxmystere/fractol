@@ -56,8 +56,8 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 	{
 		if (x > 0 && y > 0 && fdf->p_win.sx > x && fdf->p_win.sy > y)
 		{
-			fdf->mouse.x = fdf->cam.x - x;
-			fdf->mouse.y = fdf->cam.y - y;
+			fdf->mouse.x = fdf->cam.x * 2 - x;
+			fdf->mouse.y = fdf->cam.y * 2 - y;
 		}
 		else
 			return (mouse_release(1, 0, 0, fdf));
@@ -65,8 +65,8 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 	else if (button == 4 || button == 5)
 	{
 		move_iso(fdf, (button == 4 ? -4 : -5));
-		if (ft_nodesearch_int(fdf->keys, 46))
-			show_menu(fdf);
+		draw_mandel(fdf);
+		draw_text(fdf, 0, 0);
 	}
 	return (0);
 }
@@ -85,10 +85,10 @@ int	mouse_release(int button, int x, int y, t_fdf *fdf)
 
 int	mouse_move(int x, int y, t_fdf *fdf)
 {
-	if (fdf->mouse.x)
+	if (fdf->mouse.x && 0 < x && x < fdf->p_win.sx && 0 < y && y < fdf->p_win.sy)
 	{
-		fdf->cam.x = fdf->mouse.x + x;
-		fdf->cam.y = fdf->mouse.y + y;
+		fdf->cam.x = (fdf->mouse.x + x) / 2;
+		fdf->cam.y = (fdf->mouse.y + y) / 2;
 	}
 	return (0);
 }
