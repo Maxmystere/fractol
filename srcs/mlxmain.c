@@ -19,14 +19,20 @@ static void		draw_more(t_fdf *fdf, int x, int y)
 
 	nbstr = ft_itoa(fdf->cam.iter);
 	tmp = ft_strjoin("iter : ", nbstr);
-	mlx_string_put(fdf->mlx, fdf->win, 50, y + 100, 0xf44336, tmp);
-	free(nbstr);
-	free(tmp);
+	if (nbstr && tmp)
+	{
+		mlx_string_put(fdf->mlx, fdf->win, 50, y + 100, 0xf44336, tmp);
+		free(nbstr);
+		free(tmp);
+	}
 	nbstr = ft_itoa(fdf->cam.z);
 	tmp = ft_strjoin("zoom : ", nbstr);
-	mlx_string_put(fdf->mlx, fdf->win, 50, y + 120, 0xf44336, tmp);
-	free(nbstr);
-	free(tmp);
+	if (nbstr && tmp)
+	{
+		mlx_string_put(fdf->mlx, fdf->win, 50, y + 120, 0xf44336, tmp);
+		free(nbstr);
+		free(tmp);
+	}
 	(void)x;
 }
 
@@ -41,14 +47,20 @@ void			draw_text(t_fdf *fdf, int x, int y)
 	draw_order(fdf, fdf->p_win.sx - 50, fdf->p_win.sy - 49, 0xff6950);
 	nbstr = ft_itoa(-fdf->cam.x);
 	tmp = ft_strjoin("X : ", nbstr);
-	mlx_string_put(fdf->mlx, fdf->win, 50, y + 50, 0xf44336, tmp);
-	free(nbstr);
-	free(tmp);
+	if (nbstr && tmp)
+	{
+		mlx_string_put(fdf->mlx, fdf->win, 50, y + 50, 0xf44336, tmp);
+		free(nbstr);
+		free(tmp);
+	}
 	nbstr = ft_itoa(-fdf->cam.y);
 	tmp = ft_strjoin("Y : ", nbstr);
-	mlx_string_put(fdf->mlx, fdf->win, 50, y + 75, 0xf44336, tmp);
-	free(nbstr);
-	free(tmp);
+	if (nbstr && tmp)
+	{
+		mlx_string_put(fdf->mlx, fdf->win, 50, y + 75, 0xf44336, tmp);
+		free(nbstr);
+		free(tmp);
+	}
 	draw_more(fdf, x, y);
 }
 

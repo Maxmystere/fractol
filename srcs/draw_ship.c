@@ -25,8 +25,8 @@ static int	calc_color(double pr, double pi, t_cam pos)
 	i = 0;
 	while ((new_r * new_r + new_i * new_i) < 4.0 && i < pos.iter)
 	{
-		old_r = fabs(new_r);
-		old_i = fabs(new_i);
+		old_r = ft_fabs(new_r);
+		old_i = ft_fabs(new_i);
 		new_r = old_r * old_r - old_i * old_i + pr;
 		new_i = 2.0 * old_r * old_i + pi;
 		i++;

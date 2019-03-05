@@ -39,7 +39,7 @@ int	key_press(int key, t_fdf *fdf)
 		fdf->cam.x = 0;
 		fdf->cam.y = 0;
 	}
-	if (18 <= key && key <= 20)
+	if (key == 49)
 		fdf->mouse.x = 0;
 	if (key != 46 || !ft_nodesearch_int(fdf->keys, 46))
 		ft_nodeadd_int(&(fdf->keys), key);
@@ -97,8 +97,8 @@ int	mouse_release(int button, int x, int y, t_fdf *fdf)
 
 int	mouse_move(int x, int y, t_fdf *fdf)
 {
-	if (fdf->mouse.x && 0 < x && x < fdf->p_win.sx &&
-						0 < y && y < fdf->p_win.sy)
+	if (fdf->mouse.x && 0 < x && x < fdf->p_win.sx
+	&& 0 < y && y < fdf->p_win.sy)
 	{
 		fdf->cam.x = (fdf->mouse.x + x) / 2;
 		fdf->cam.y = (fdf->mouse.y + y) / 2;

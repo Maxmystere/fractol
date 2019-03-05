@@ -20,19 +20,19 @@ void		fill_pixel(t_fdf *fdf, int x, int y, int color)
 
 static int	grad(t_pos orig, t_pos current, t_pos end)
 {
-	float	r;
+	double	r;
 	int		color;
 	t_pos	bot;
 	t_pos	top;
 
 	top = orig.x > end.x ? orig : end;
 	bot = orig.x > end.x ? end : orig;
-	r = fabsf((float)(current.x - bot.x) / (float)(top.x - bot.x));
+	r = ft_fabs((double)(current.x - bot.x) / (double)(top.x - bot.x));
 	color = 0;
-	color += 0x10000 * (int)((r * (top.c / 0x10000)) +
-			((1 - r) * (bot.c / 0x10000)));
-	color += 0x100 * (int)((r * (top.c % 0x10000 / 0x100)) +
-			((1 - r) * (bot.c % 0x10000 / 0x100)));
+	color += 0x10000 * (int)((r * (top.c / 0x10000))
+								+ ((1 - r) * (bot.c / 0x10000)));
+	color += 0x100 * (int)((r * (top.c % 0x10000 / 0x100))
+								+ ((1 - r) * (bot.c % 0x10000 / 0x100)));
 	color += (int)((r * (top.c % 0x100)) + ((1 - r) * (bot.c % 0x100)));
 	return (color);
 }
