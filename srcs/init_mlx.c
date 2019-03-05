@@ -46,17 +46,17 @@ static void		short_load(void *mlx, t_fdf *fdf, size_t v)
 
 static int		searchtype(t_fdf *fdf, char *winname, int v)
 {
-	if (!(ft_strcmp("mandelbrot", winname)))
+	if (!(ft_strcmp("-m", winname)))
 	{
 		fdf[v].fractype = MANDEL;
 		return (1);
 	}
-	else if (!(ft_strcmp("julia", winname)))
+	else if (!(ft_strcmp("-j", winname)))
 	{
 		fdf[v].fractype = JULIA;
 		return (1);
 	}
-	else if (!(ft_strcmp("burningship", winname)))
+	else if (!(ft_strcmp("-b", winname)))
 	{
 		fdf[v].fractype = BSHIP;
 		return (1);

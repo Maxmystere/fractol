@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tferrieu <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: magrab   <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/02/16 17:28:51 by tferrieu          #+#    #+#              #
-#    Updated: 2019/03/05 11:42:52 by magrab           ###   ########.fr        #
+#    Created: 2019/02/16 17:28:51 by magrab            #+#    #+#              #
+#    Updated: 2019/03/05 11:51:45 by magrab           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,9 @@ SRC			=	./srcs/camera_movement.c \
 				./srcs/draw_julia.c \
 				./srcs/draw_ship.c
 
-#OBJ			=	$(patsubst ./srcs/%.c, ./objs/%.o, $(SRC))
 OBJ				=	$(SRC:.c=.o)
 
-FLAG		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror
 
 FMLX		=	-lmlx -framework OpenGL -framework AppKit -o
 
@@ -37,9 +36,7 @@ all:		$(NAME)
 
 $(NAME):	$(OBJ)
 	make -C Libft
-	gcc $(FLAG) $(FMLX) $(NAME) $(OBJ) $(LIB)
-
-
+	gcc $(CFLAGS) $(FMLX) $(NAME) $(OBJ) $(LIB)
 
 clean:
 	make -C Libft clean
