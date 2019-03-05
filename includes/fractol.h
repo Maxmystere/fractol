@@ -54,10 +54,10 @@ typedef struct	s_win{
 }				t_win;
 
 typedef struct	s_cam{
-	int		x;
-	int		y;
-	double	z;
-	int		iter;
+	double			x;
+	double			y;
+	double			z;
+	int				iter;
 }				t_cam;
 
 typedef struct	s_fdf{

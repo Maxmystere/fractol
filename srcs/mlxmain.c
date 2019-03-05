@@ -45,7 +45,7 @@ void			draw_text(t_fdf *fdf, int x, int y)
 	draw_order(fdf, fdf->p_win.sx - 49, fdf->p_win.sy - 49, 0xff6950);
 	draw_order(fdf, fdf->p_win.sx - 49, fdf->p_win.sy - 50, 0xff6950);
 	draw_order(fdf, fdf->p_win.sx - 50, fdf->p_win.sy - 49, 0xff6950);
-	nbstr = ft_itoa(-fdf->cam.x);
+	nbstr = ft_itoa(fdf->cam.x - fdf->p_win.sx / 4);
 	tmp = ft_strjoin("X : ", nbstr);
 	if (nbstr && tmp)
 	{
@@ -53,7 +53,7 @@ void			draw_text(t_fdf *fdf, int x, int y)
 		free(nbstr);
 		free(tmp);
 	}
-	nbstr = ft_itoa(-fdf->cam.y);
+	nbstr = ft_itoa(fdf->cam.y - fdf->p_win.sy / 4);
 	tmp = ft_strjoin("Y : ", nbstr);
 	if (nbstr && tmp)
 	{

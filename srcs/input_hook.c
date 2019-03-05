@@ -36,8 +36,8 @@ int	key_press(int key, t_fdf *fdf)
 		return (close_hook(fdf));
 	if (key == 35)
 	{
-		fdf->cam.x = 0;
-		fdf->cam.y = 0;
+		fdf->cam.x = fdf->p_win.sx / 4;
+		fdf->cam.y = fdf->p_win.sy / 4;
 	}
 	if (key == 49)
 		fdf->mouse.x = 0;
