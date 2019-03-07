@@ -29,8 +29,8 @@ __kernel void color(__global const t_frcl *in, __global unsigned int *out)\
 	const uint index = get_global_id(0);\
 	const double x = index % in->winsx;\
 	const double y = index / in->winsx;\
-	const double pr = x / in->camz - (in->camx + in->winsx / 4)/ (in->camz * 2);\
-	const double pi = y / in->camz - (in->camy + in->winsy / 4)/ (in->camz * 2);\
+	const double pr = x / in->camz - (in->camx * 4.0 + in->winsx)/ (in->camz * 2);\
+	const double pi = y / in->camz - (in->camy * 4.0 + in->winsy)/ (in->camz * 2);\
 \
 	double	new_r;\
 	double	new_i;\
@@ -53,14 +53,13 @@ __kernel void color(__global const t_frcl *in, __global unsigned int *out)\
 }\
 ";
 
-int		gpu_calcul(t_frcl param, void *mlx, void *win)
+int		gpu_calcul(t_frcl param, void *win, void *img)
 {
-	t_gpu tcl;
-	int bpp = 32;
-	int s_l = 1000 * 4;
-	int endian = 0;
+	t_gpu   tcl;
+	int     bpp;
+	int     s_l;
+	int     endian;
 
-	void *img = mlx_new_image(mlx, param.winsx, param.winsy);
 	unsigned int *istr = (unsigned int *)mlx_get_data_addr(img, &(bpp), &(s_l), &(endian));
 
 	// Setup GPU
@@ -121,7 +120,6 @@ int		gpu_calcul(t_frcl param, void *mlx, void *win)
 	// End GPU
 
 	mlx_put_image_to_window(istr, win, img, 0, 0);
-	mlx_destroy_image(mlx, img);
 
 	return (0);
 }

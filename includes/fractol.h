@@ -108,7 +108,7 @@ typedef struct  s_frcl{
 	int		color;
 }               t_frcl;
 
-int				gpu_calcul(t_frcl param, void *mlx, void *win);
+int				gpu_calcul(t_frcl param, void *win, void *img);
 
 /*
 ** End GPU Structs
