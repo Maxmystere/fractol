@@ -33,12 +33,15 @@ static void		short_load(void *mlx, t_fdf *fdf, size_t v)
 	fdf[v].p_win.nb = v;
 	fdf[v].keys = NULL;
 	fdf[v].color = 0xF0F0F0;
-	fdf[v].cam.x = (fdf[v].fractype == JULIA ? 0 : fdf[v].p_win.sx / 4);
-	fdf[v].cam.y = (fdf[v].fractype == JULIA ? 0 : fdf[v].p_win.sy / 4);
+	//fdf[v].cam.x = (fdf[v].fractype == JULIA ? 0 : fdf[v].p_win.sx / 4);
+	//fdf[v].cam.y = (fdf[v].fractype == JULIA ? 0 : fdf[v].p_win.sy / 4);
+	fdf[v].cam.x = 0;
+	fdf[v].cam.y = 0;
+	fdf[v].cam.jon = 1;
 	if (fdf[v].fractype == JULIA)
 	{
-		fdf[v].mouse.x = -fdf[v].p_win.sx / 2;
-		fdf[v].mouse.y = -fdf[v].p_win.sy / 2;
+		fdf[v].mouse.sx = 0;
+		fdf[v].mouse.sy = 0;
 	}
 	fdf[v].cam.z = 150;
 	fdf[v].cam.iter = MAX_ITER;

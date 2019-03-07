@@ -49,8 +49,8 @@ static void	*draw_part(void *arg)
 		x = (((t_th *)arg)->th % 2 ? fdf->p_win.sx / 2 : 0);
 		while (x < (((t_th *)arg)->th % 2 ? fdf->p_win.sx : fdf->p_win.sx / 2))
 		{
-			pi = y / fdf->cam.z - fdf->cam.y / fdf->cam.z * 2;
-			pr = x / fdf->cam.z - fdf->cam.x / fdf->cam.z * 2;
+			pr = x / fdf->cam.z - (fdf->cam.x + fdf->p_win.sx / 4) / fdf->cam.z * 2;
+			pi = y / fdf->cam.z - (fdf->cam.y + fdf->p_win.sy / 4) / fdf->cam.z * 2;
 			fill_pixel(fdf, x, y, calc_color(pr, pi, fdf->cam) * fdf->color);
 			x++;
 		}

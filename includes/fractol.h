@@ -13,12 +13,12 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include <pthread.h>
+# include "../libft/libft.h"
 # include <mlx.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <pthread.h>
-# include "../libft/libft.h"
+# include <OpenCL/cl.h>
 
 /*
 ** Bonus include
@@ -35,8 +35,10 @@
 # define BSHIP 2
 
 typedef struct	s_dot{
-	int x;
-	int y;
+	double	x;
+	double	y;
+	int sx;
+	int sy;
 }				t_dot;
 
 typedef struct	s_pos{
@@ -56,6 +58,9 @@ typedef struct	s_win{
 typedef struct	s_cam{
 	double			x;
 	double			y;
+	int				jon;
+	double			jx;
+	double			jy;
 	double			z;
 	int				iter;
 }				t_cam;
@@ -82,8 +87,28 @@ typedef struct	s_th{
 }				t_th;
 
 /*
-** void			*g_mlx(int setup);
-** void			*g_win(t_win *win);
+** GPU Structs
+*/
+
+typedef struct	s_gpu{
+	cl_int err;
+	cl_platform_id ptm;
+	cl_uint ptms;
+	cl_device_id dvc;
+	cl_uint dvcs;
+}				t_gpu;
+
+typedef struct  s_frcl{
+    double  camx;
+    double  camy;
+    double  camz;
+    int     winsx;
+    int     winsy;
+	int		iter;
+}               t_frcl;
+
+/*
+** End GPU Structs
 */
 
 void			show_menu(t_fdf *fdf);

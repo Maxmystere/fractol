@@ -68,7 +68,7 @@ int				loop_hook(t_fdf *fdf)
 	{
 		if (fdf[x].win)
 		{
-			if (fdf[x].keys || fdf[x].mouse.x)
+			if (fdf[x].keys || fdf[x].cam.jon || fdf[x].mouse.sx)
 			{
 				lil_loop(&(fdf[x]), 0, 0);
 			}

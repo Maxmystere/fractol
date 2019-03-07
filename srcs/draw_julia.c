@@ -27,8 +27,8 @@ static int			calc_color(double pr, double pi, t_cam pos)
 	{
 		old_r = new_r;
 		old_i = new_i;
-		new_r = old_r * old_r - old_i * old_i + pos.x / 100.0;
-		new_i = 2.0 * old_r * old_i + pos.y / 100.0;
+		new_r = old_r * old_r - old_i * old_i + pos.jx / 100.0;
+		new_i = 2.0 * old_r * old_i + pos.jy / 100.0;
 		i++;
 	}
 	return (i);
@@ -49,8 +49,8 @@ static void			*draw_part(void *arg)
 		x = (((t_th *)arg)->th % 2 ? fdf->p_win.sx / 2 : 0);
 		while (x < (((t_th *)arg)->th % 2 ? fdf->p_win.sx : fdf->p_win.sx / 2))
 		{
-			pr = 1 / fdf->cam.z * (x - fdf->p_win.sx / 2);
-			pi = 1 / fdf->cam.z * (y - fdf->p_win.sy / 2);
+			pr = 1 / fdf->cam.z * x - (fdf->cam.x + fdf->p_win.sx / 4) / fdf->cam.z * 2;// * (x - fdf->p_win.sx / 2 + fdf->cam.x);
+			pi = 1 / fdf->cam.z * y - (fdf->cam.y + fdf->p_win.sy / 4) / fdf->cam.z * 2;// * (y - fdf->p_win.sy / 2 + fdf->cam.y);
 			fill_pixel(fdf, x, y, calc_color(pr, pi, fdf->cam) * fdf->color);
 			x++;
 		}

@@ -17,7 +17,9 @@
 ** 19 : 2 key
 ** 20 : 3 key
 ** 21 : 4 key
+** 35 : P key
 ** 46 : M key
+** 49 : Spacebar
 ** 53 : esc key
 ** 50 : key under esc
 ** 69 : plus numpad
@@ -36,11 +38,11 @@ int	key_press(int key, t_fdf *fdf)
 		return (close_hook(fdf));
 	if (key == 35)
 	{
-		fdf->cam.x = fdf->p_win.sx / 4;
-		fdf->cam.y = fdf->p_win.sy / 4;
+		fdf->cam.x = 0;
+		fdf->cam.y = 0;
 	}
 	if (key == 49)
-		fdf->mouse.x = 0;
+		fdf->cam.jon = (fdf->cam.jon ? 0 : 1);
 	if (key != 46 || !ft_nodesearch_int(fdf->keys, 46))
 		ft_nodeadd_int(&(fdf->keys), key);
 	else
@@ -61,8 +63,9 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 	{
 		if (x > 0 && y > 0 && fdf->p_win.sx > x && fdf->p_win.sy > y)
 		{
-			fdf->mouse.x = fdf->cam.x * 2 - x;
-			fdf->mouse.y = fdf->cam.y * 2 - y;
+			fdf->mouse.sx = fdf->cam.x * 2 - x;
+			fdf->mouse.sy = fdf->cam.y * 2 - y;
+			fdf->cam.jon = 0;
 		}
 		else
 			return (mouse_release(1, 0, 0, fdf));
@@ -87,21 +90,27 @@ int	mouse_release(int button, int x, int y, t_fdf *fdf)
 {
 	(void)x;
 	(void)y;
-	if (button == 1 && fdf->fractype != JULIA)
+	if (button == 1)
 	{
-		fdf->mouse.x = 0;
-		fdf->mouse.y = 0;
+		fdf->mouse.sx = 0;
+		fdf->mouse.sy = 0;
 	}
 	return (0);
 }
 
 int	mouse_move(int x, int y, t_fdf *fdf)
 {
-	if (fdf->mouse.x && 0 < x && x < fdf->p_win.sx
-	&& 0 < y && y < fdf->p_win.sy)
+	fdf->mouse.x = -100.0 / ((x - fdf->p_win.sx / 2 - fdf->cam.x * 2) / fdf->cam.z);
+	fdf->mouse.y = -100.0 / ((y - fdf->p_win.sy / 2 - fdf->cam.y * 2) / fdf->cam.z);
+	if (fdf->cam.jon)
 	{
-		fdf->cam.x = (fdf->mouse.x + x) / 2;
-		fdf->cam.y = (fdf->mouse.y + y) / 2;
+		fdf->cam.jx = x - fdf->p_win.sx / 2;
+		fdf->cam.jy = y - fdf->p_win.sy / 2;
+	}
+	if (fdf->mouse.sx && 0 < x && x < fdf->p_win.sx && 0 < y && y < fdf->p_win.sy)
+	{
+		fdf->cam.x = (fdf->mouse.sx + x) / 2;
+		fdf->cam.y = (fdf->mouse.sy + y) / 2;
 	}
 	return (0);
 }
