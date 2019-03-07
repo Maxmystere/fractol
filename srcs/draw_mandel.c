@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
-
+/*
 static int	calc_color(double pr, double pi, t_cam pos)
 {
 	double	new_r;
@@ -58,25 +58,20 @@ static void	*draw_part(void *arg)
 	}
 	pthread_exit(NULL);
 }
+*/
+
 
 void		draw_mandel(t_fdf *fdf)
 {
-	pthread_t	threads[4];
-	t_th		pth[4];
-	int			x;
+	t_frcl tmp;
 
-	x = 0;
-	while (x < 4)
-	{
-		pth[x].fdf = fdf;
-		pth[x].th = x;
-		pthread_create(&threads[x], NULL, draw_part, &(pth[x]));
-		x++;
-	}
-	pthread_join(threads[0], NULL);
-	pthread_join(threads[1], NULL);
-	pthread_join(threads[2], NULL);
-	pthread_join(threads[3], NULL);
-	mlx_clear_window(fdf->mlx, fdf->win);
-	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
+	tmp.iter = fdf->cam.iter;
+	tmp.camx = fdf->cam.x;
+	tmp.camy = fdf->cam.y;
+	tmp.camz = fdf->cam.z;
+	tmp.winsx = fdf->p_win.sx;
+	tmp.winsy = fdf->p_win.sy;
+	tmp.color = fdf->color;
+
+	gpu_calcul(tmp, fdf->mlx, fdf->win);
 }

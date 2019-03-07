@@ -25,8 +25,8 @@
 */
 
 # define MAX_ITER 42
-# define WINX 1000
-# define WINY 750
+# define WINX 1500
+# define WINY 1000
 # define CAMSPEED 1
 # define ZOOMSPEED 1
 
@@ -105,7 +105,10 @@ typedef struct  s_frcl{
     int     winsx;
     int     winsy;
 	int		iter;
+	int		color;
 }               t_frcl;
+
+int				gpu_calcul(t_frcl param, void *mlx, void *win);
 
 /*
 ** End GPU Structs

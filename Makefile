@@ -22,6 +22,7 @@ SRC			=	./srcs/camera_movement.c \
 				./srcs/mlxmain.c \
 				./srcs/program_close.c \
 				./srcs/order_drawer.c \
+				./srcs/gpu_calcul.c \
 				./srcs/draw_mandel.c \
 				./srcs/draw_julia.c \
 				./srcs/draw_ship.c
@@ -30,7 +31,7 @@ OBJ				=	$(SRC:.c=.o)
 
 CFLAGS		=	-Wall -Wextra -Werror
 
-FMLX		=	-lmlx -framework OpenGL -framework AppKit -o
+FMLX		=	-lmlx -framework OpenGL -framework AppKit -framework OpenCL -o
 
 all:		$(NAME)
 
