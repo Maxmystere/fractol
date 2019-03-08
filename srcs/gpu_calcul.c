@@ -53,14 +53,9 @@ __kernel void color(__global const t_frcl *in, __global unsigned int *out)\
 }\
 ";
 
-int		gpu_calcul(t_frcl param, void *win, void *img)
+int		gpu_calcul(t_frcl param, t_fdf *fdf)
 {
 	t_gpu   tcl;
-	int     bpp;
-	int     s_l;
-	int     endian;
-
-	unsigned int *istr = (unsigned int *)mlx_get_data_addr(img, &(bpp), &(s_l), &(endian));
 
 	// Setup GPU
 	// Fetch the Platform and Device IDs; we only want one.
@@ -95,7 +90,7 @@ int		gpu_calcul(t_frcl param, void *win, void *img)
 	size_t worksize = param.winsx * param.winsy;
 	mem1 = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(param), NULL, &tcl.err);
 	//ft_printf("Err clCreateBuffer? :\t\t%d\n", tcl.err);
-	mem2 = clCreateBuffer(context, CL_MEM_USE_HOST_PTR, worksize, istr, &tcl.err);
+	mem2 = clCreateBuffer(context, CL_MEM_USE_HOST_PTR, worksize, fdf->istr, &tcl.err);
 	//ft_printf("Err clCreateBuffer? :\t\t%d\n", tcl.err);
 
 	// get a handle and map parameters for the kernel
@@ -111,7 +106,7 @@ int		gpu_calcul(t_frcl param, void *win, void *img)
 	//ft_printf("Err clEnqueueNDRangeKernel? :\t%d\n", tcl.err);
 	// Read the result back into buf2
 	
-	tcl.err = clEnqueueReadBuffer(cq, mem2, CL_FALSE, 0, worksize, istr, 0, NULL, NULL);
+	tcl.err = clEnqueueReadBuffer(cq, mem2, CL_FALSE, 0, worksize, fdf->istr, 0, NULL, NULL);
 	//ft_printf("Err clEnqueueReadBuffer? :\t%d\n", tcl.err);
 	// Await completion of all the above
 	tcl.err = clFinish(cq);
@@ -119,7 +114,8 @@ int		gpu_calcul(t_frcl param, void *win, void *img)
 
 	// End GPU
 
-	mlx_put_image_to_window(istr, win, img, 0, 0);
+	mlx_clear_window(fdf->mlx, fdf->win);
+	mlx_put_image_to_window(fdf->istr, fdf->win, fdf->img, 0, 0);
 
 	return (0);
 }

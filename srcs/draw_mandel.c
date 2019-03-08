@@ -73,5 +73,5 @@ void		draw_mandel(t_fdf *fdf)
 	tmp.winsy = fdf->p_win.sy;
 	tmp.color = fdf->color;
 
-	gpu_calcul(tmp, fdf->win, fdf->img);
+	gpu_calcul(tmp, fdf);
 }
