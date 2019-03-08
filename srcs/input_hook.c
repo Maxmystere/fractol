@@ -100,14 +100,17 @@ int	mouse_release(int button, int x, int y, t_fdf *fdf)
 
 int	mouse_move(int x, int y, t_fdf *fdf)
 {
-	fdf->mouse.x = -100.0 / ((x - fdf->p_win.sx / 2 - fdf->cam.x * 2) / fdf->cam.z);
-	fdf->mouse.y = -100.0 / ((y - fdf->p_win.sy / 2 - fdf->cam.y * 2) / fdf->cam.z);
+	fdf->mouse.x = -100.0 / ((x - fdf->p_win.sx / 2 - fdf->cam.x * 2)
+														/ fdf->cam.z);
+	fdf->mouse.y = -100.0 / ((y - fdf->p_win.sy / 2 - fdf->cam.y * 2)
+														/ fdf->cam.z);
 	if (fdf->cam.jon)
 	{
 		fdf->cam.jx = x - fdf->p_win.sx / 2;
 		fdf->cam.jy = y - fdf->p_win.sy / 2;
 	}
-	if (fdf->mouse.sx && 0 < x && x < fdf->p_win.sx && 0 < y && y < fdf->p_win.sy)
+	if (fdf->mouse.sx && 0 < x && x < fdf->p_win.sx
+				&& 0 < y && y < fdf->p_win.sy)
 	{
 		fdf->cam.x = (fdf->mouse.sx + x) / 2;
 		fdf->cam.y = (fdf->mouse.sy + y) / 2;

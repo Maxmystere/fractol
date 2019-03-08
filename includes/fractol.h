@@ -25,8 +25,8 @@
 */
 
 # define MAX_ITER 42
-# define WINX 1500
-# define WINY 1000
+# define WINX 1000
+# define WINY 750
 # define CAMSPEED 1
 # define ZOOMSPEED 1
 
@@ -87,8 +87,20 @@ typedef struct	s_th{
 }				t_th;
 
 /*
-** GPU Structs
+** GPU Stuff
 */
+
+# define MANDELDRAWER "typedef struct  s_frcl{double camx;double camy;\
+double  camz;int winsx;int winsy;int iter;int color;}t_frcl;\
+__kernel void color(__global const t_frcl *in, __global unsigned int *out)\
+{const uint index = get_global_id(0);const double x = index % in->winsx;\
+const double y = index / in->winsx;\
+const double pr = x / in->camz - (in->camx * 4.0 + in->winsx)/ (in->camz * 2);\
+const double pi = y / in->camz - (in->camy * 4.0 + in->winsy)/ (in->camz * 2);\
+double new_r;double new_i;double old_r;double old_i;int i;new_r = 0;new_i = 0;\
+i = 0;while ((new_r * new_r + new_i * new_i) < 4.0 && i < in->iter){\
+old_r = new_r;old_i = new_i;new_r = old_r * old_r - old_i * old_i + pr;\
+new_i = 2.0 * old_r * old_i + pi;i++;}out[index] = i * in->color;}"
 
 typedef struct	s_gpu{
 	cl_int err;
@@ -108,10 +120,10 @@ typedef struct  s_frcl{
 	int		color;
 }               t_frcl;
 
-int				gpu_calcul(t_frcl param, t_fdf *fdf);
+int				gpu_calcul(t_frcl param, t_fdf *fdf, const char *src);
 
 /*
-** End GPU Structs
+** End GPU Stuff
 */
 
 void			show_menu(t_fdf *fdf);

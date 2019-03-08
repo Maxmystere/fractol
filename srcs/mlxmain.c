@@ -117,7 +117,8 @@ int				main(int ac, char **av)
 
 	if (!(fdf = init_mlx(ac, av)))
 	{
-		ft_putstr("Usage: fractol [-m] mandelbrot [-j] julia [-b] burningship\n");
+		ft_putstr("Usage: fractol [-m] mandelbrot [-j] julia [-b] burningship\
+\n");
 		return (-1);
 	}
 	x = -1;

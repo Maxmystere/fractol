@@ -11,111 +11,47 @@
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
-
-const char color_cl[] = "\
-\
-typedef struct  s_frcl{\
-    double  camx;\
-    double  camy;\
-    double  camz;\
-    int     winsx;\
-    int     winsy;\
-	int		iter;\
-    int		color;\
-}               t_frcl;\
-\
-__kernel void color(__global const t_frcl *in, __global unsigned int *out)\
-{\
-	const uint index = get_global_id(0);\
-	const double x = index % in->winsx;\
-	const double y = index / in->winsx;\
-	const double pr = x / in->camz - (in->camx * 4.0 + in->winsx)/ (in->camz * 2);\
-	const double pi = y / in->camz - (in->camy * 4.0 + in->winsy)/ (in->camz * 2);\
-\
-	double	new_r;\
-	double	new_i;\
-	double	old_r;\
-	double	old_i;\
-	int		i;\
-\
-	new_r = 0;\
-	new_i = 0;\
-	i = 0;\
-	while ((new_r * new_r + new_i * new_i) < 4.0 && i < in->iter)\
-	{\
-		old_r = new_r;\
-		old_i = new_i;\
-		new_r = old_r * old_r - old_i * old_i + pr;\
-		new_i = 2.0 * old_r * old_i + pi;\
-		i++;\
-	}\
-	out[index] = i * in->color;\
-}\
-";
-
-int		gpu_calcul(t_frcl param, t_fdf *fdf)
+/*
+static void lil_gpu()
 {
-	t_gpu   tcl;
 
-	// Setup GPU
-	// Fetch the Platform and Device IDs; we only want one.
-	tcl.err = clGetPlatformIDs(1, &tcl.ptm, &tcl.ptms);
-	//ft_printf("Err clGetPlatformIDs? :\t\t%d\n", tcl.err);
-	tcl.err = clGetDeviceIDs(tcl.ptm, CL_DEVICE_TYPE_ALL, 1, &tcl.dvc, &tcl.dvcs);
-	//ft_printf("Err clGetDeviceIDs? :\t\t%d\n", tcl.err);
+}
+*/
+int		gpu_calcul(t_frcl param, t_fdf *fdf, const char *src)
+{
+	t_gpu	tcl;
+	cl_mem	mem1;
+	cl_mem	mem2;
+	cl_context context;
+	cl_command_queue cq;
+	size_t srcsize;
+	size_t worksize;
+	cl_kernel k_color;
+
+	clGetPlatformIDs(1, &tcl.ptm, &tcl.ptms);
+	clGetDeviceIDs(tcl.ptm, CL_DEVICE_TYPE_ALL, 1, &tcl.dvc, &tcl.dvcs);
 	cl_context_properties properties[] = {
 		CL_CONTEXT_PLATFORM,
 		(cl_context_properties)tcl.ptm,
 		0
 	};
-	// Note that nVidia's OpenCL requires the platform property
-	cl_context context = clCreateContext(properties, 1, &tcl.dvc, NULL, NULL, &tcl.err);
-	//ft_printf("Err clCreateContext? :\t\t%d\n", tcl.err);
-	cl_command_queue cq = clCreateCommandQueue(context, tcl.dvc, 0, &tcl.err);
-	//ft_printf("Err clCreateCommandQueue? :\t%d\n", tcl.err);
-
-	const char *src = color_cl;
-	size_t srcsize = strlen(src);
-
-	// Submit the source code of the rot13 kernel to OpenCL
+	context = clCreateContext(properties, 1, &tcl.dvc, NULL, NULL, &tcl.err);
+	cq = clCreateCommandQueue(context, tcl.dvc, 0, &tcl.err);
+	srcsize = ft_strlen(src);
 	cl_program prog = clCreateProgramWithSource(context, 1, &src, &srcsize, &tcl.err);
-	//ft_printf("Err clCreateProgramWithSource? :%d\n", tcl.err);
-	// and compile it (after this we could extract the compiled version)
-	tcl.err = clBuildProgram(prog, 0, NULL, "", NULL, NULL);
-	//ft_printf("Err clBuildProgram? :\t\t%d\n", tcl.err);
-
-	// Allocate memory for the kernel to work with
-	cl_mem mem1, mem2;
-	// Worksize should be the size of your window (in pixel)
-	size_t worksize = param.winsx * param.winsy;
+	clBuildProgram(prog, 0, NULL, "", NULL, NULL);
+	
+	worksize = param.winsx * param.winsy;
 	mem1 = clCreateBuffer(context, CL_MEM_READ_ONLY, sizeof(param), NULL, &tcl.err);
-	//ft_printf("Err clCreateBuffer? :\t\t%d\n", tcl.err);
 	mem2 = clCreateBuffer(context, CL_MEM_USE_HOST_PTR, worksize, fdf->istr, &tcl.err);
-	//ft_printf("Err clCreateBuffer? :\t\t%d\n", tcl.err);
-
-	// get a handle and map parameters for the kernel
-	cl_kernel k_color = clCreateKernel(prog, "color", &tcl.err);
+	k_color = clCreateKernel(prog, "color", &tcl.err);
 	clSetKernelArg(k_color, 0, sizeof(mem1), &mem1);
 	clSetKernelArg(k_color, 1, sizeof(mem2), &mem2);
-
-	// Send input data to OpenCL (async, don't alter the buffer!)
-	tcl.err = clEnqueueWriteBuffer(cq, mem1, CL_FALSE, 0, sizeof(param), &param, 0, NULL, NULL);
-	//ft_printf("Err clEnqueueWriteBuffer? :\t%d\n", tcl.err);
-	// Perform the operation
-	tcl.err = clEnqueueNDRangeKernel(cq, k_color, 1, NULL, &worksize, NULL, 0, NULL, NULL);
-	//ft_printf("Err clEnqueueNDRangeKernel? :\t%d\n", tcl.err);
-	// Read the result back into buf2
-	
-	tcl.err = clEnqueueReadBuffer(cq, mem2, CL_FALSE, 0, worksize, fdf->istr, 0, NULL, NULL);
-	//ft_printf("Err clEnqueueReadBuffer? :\t%d\n", tcl.err);
-	// Await completion of all the above
-	tcl.err = clFinish(cq);
-	//ft_printf("Err clFinish? :\t\t\t%d\n", tcl.err);
-
-	// End GPU
-
+	clEnqueueWriteBuffer(cq, mem1, CL_FALSE, 0, sizeof(param), &param, 0, NULL, NULL);
+	clEnqueueNDRangeKernel(cq, k_color, 1, NULL, &worksize, NULL, 0, NULL, NULL);
+	clEnqueueReadBuffer(cq, mem2, CL_FALSE, 0, worksize, fdf->istr, 0, NULL, NULL);
+	clFinish(cq);
 	mlx_clear_window(fdf->mlx, fdf->win);
 	mlx_put_image_to_window(fdf->istr, fdf->win, fdf->img, 0, 0);
-
 	return (0);
 }
