@@ -103,11 +103,15 @@ old_r = new_r;old_i = new_i;new_r = old_r * old_r - old_i * old_i + pr;\
 new_i = 2.0 * old_r * old_i + pi;i++;}out[index] = i * in->color;}"
 
 typedef struct	s_gpu{
-	cl_int err;
-	cl_platform_id ptm;
-	cl_uint ptms;
-	cl_device_id dvc;
-	cl_uint dvcs;
+	cl_int 					err;
+	cl_platform_id			 ptm;
+	cl_uint					 ptms;
+	cl_device_id 			dvc;
+	cl_uint					 dvcs;
+	size_t					srcsize;
+	cl_program				prog;
+	cl_kernel				k_color;
+	cl_context_properties	properties[3];
 }				t_gpu;
 
 typedef struct  s_frcl{
