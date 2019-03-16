@@ -90,8 +90,8 @@ typedef struct	s_th{
 ** GPU Stuff
 */
 
-# define MANDELDRAWER "typedef struct  s_frcl{double camx;double camy;\
-double  camz;int winsx;int winsy;int iter;int color;}t_frcl;\
+# define MANDELDRAWER "typedef struct s_frcl{double camx;double camy;\
+double camz;double jx;double jy;int winsx;int winsy;int iter;int color;}t_frcl;\
 __kernel void color(__global const t_frcl *in, __global unsigned int *out)\
 {const uint index = get_global_id(0);const double x = index % in->winsx;\
 const double y = index / in->winsx;\
@@ -102,8 +102,20 @@ i = 0;while ((new_r * new_r + new_i * new_i) < 4.0 && i < in->iter){\
 old_r = new_r;old_i = new_i;new_r = old_r * old_r - old_i * old_i + pr;\
 new_i = 2.0 * old_r * old_i + pi;i++;}out[index] = i * in->color;}"
 
-# define SHIPDRAWER "typedef struct  s_frcl{double camx;double camy;\
-double  camz;int winsx;int winsy;int iter;int color;}t_frcl;\
+# define JULIADRAWER "typedef struct s_frcl{double camx;double camy;\
+double camz;double jx;double jy;int winsx;int winsy;int iter;int color;}t_frcl;\
+__kernel void color(__global const t_frcl *in, __global unsigned int *out)\
+{const uint index = get_global_id(0);const double x = index % in->winsx;\
+const double y = index / in->winsx;\
+const double pr = x / in->camz - (in->camx * 4.0 + in->winsx)/ (in->camz * 2);\
+const double pi = y / in->camz - (in->camy * 4.0 + in->winsy)/ (in->camz * 2);\
+double new_r;double new_i;double old_r;double old_i;int i;new_r = pr;new_i = pi;\
+i = 0;while ((new_r * new_r + new_i * new_i) < 18.0 && i < in->iter){\
+old_r = new_r;old_i = new_i;new_r = old_r * old_r - old_i * old_i + in->jx / 100.0;\
+new_i = 2.0 * old_r * old_i + in->jy / 100.0;i++;}out[index] = i * in->color;}"
+
+# define SHIPDRAWER "typedef struct s_frcl{double camx;double camy;\
+double camz;double jx;double jy;int winsx;int winsy;int iter;int color;}t_frcl;\
 __kernel void color(__global const t_frcl *in, __global unsigned int *out)\
 {const uint index = get_global_id(0);const double x = index % in->winsx;\
 const double y = index / in->winsx;\
@@ -130,6 +142,8 @@ typedef struct  s_frcl{
     double  camx;
     double  camy;
     double  camz;
+	double	jx;
+	double	jy;
     int     winsx;
     int     winsy;
 	int		iter;
