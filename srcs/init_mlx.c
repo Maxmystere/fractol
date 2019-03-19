@@ -44,12 +44,11 @@ static void		short_load(void *mlx, t_fdf *fdf, int v)
 	fdf[v].color = 0xF0F0F0;
 	fdf[v].cam.x = 0;
 	fdf[v].cam.y = 0;
-	fdf[v].cam.jon = 1;
+	fdf[v].cam.jon = 0;
 	if (fdf[v].fractype == JULIA)
-	{
-		fdf[v].mouse.sx = 0;
-		fdf[v].mouse.sy = 0;
-	}
+		fdf[v].cam.jon = 1;
+	fdf[v].mouse.sx = 0;
+	fdf[v].mouse.sy = 0;
 	fdf[v].cam.z = 150;
 	fdf[v].cam.iter = MAX_ITER;
 }
