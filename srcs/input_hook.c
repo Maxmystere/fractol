@@ -65,8 +65,8 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 	{
 		if (x > 0 && y > 0 && fdf->p_win.sx > x && fdf->p_win.sy > y)
 		{
-			fdf->mouse.sx = fdf->cam.x * 2 - x;
-			fdf->mouse.sy = fdf->cam.y * 2 - y;
+			fdf->mouse.sx = fdf->cam.x * 2.0 - x;
+			fdf->mouse.sy = fdf->cam.y * 2.0 - y;
 			fdf->cam.jon = 0;
 		}
 		else
@@ -108,14 +108,14 @@ int	mouse_move(int x, int y, t_fdf *fdf)
 														/ fdf->cam.z);
 	if (fdf->cam.jon)
 	{
-		fdf->cam.jx = x - fdf->p_win.sx / 2;
-		fdf->cam.jy = y - fdf->p_win.sy / 2;
+		fdf->cam.jx = x - fdf->p_win.sx / 2.0;
+		fdf->cam.jy = y - fdf->p_win.sy / 2.0;
 	}
 	if (fdf->mouse.sx && 0 < x && x < fdf->p_win.sx
 				&& 0 < y && y < fdf->p_win.sy)
 	{
-		fdf->cam.x = (fdf->mouse.sx + x) / 2;
-		fdf->cam.y = (fdf->mouse.sy + y) / 2;
+		fdf->cam.x = (fdf->mouse.sx + x) / 2.0;
+		fdf->cam.y = (fdf->mouse.sy + y) / 2.0;
 	}
 	return (0);
 }

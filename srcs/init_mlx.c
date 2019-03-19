@@ -34,7 +34,7 @@ static int		load_imgs(t_fdf *fdf)
 	return (0);
 }
 
-static void		short_load(void *mlx, t_fdf *fdf, size_t v)
+static void		short_load(void *mlx, t_fdf *fdf, int v)
 {
 	fdf[v].mlx = mlx;
 	fdf[v].p_win.sx = WINX;
@@ -108,7 +108,7 @@ t_fdf			*init_mlx(int winnb, char **winname)
 
 	if (winnb < 2)
 		return (NULL);
-	if (!(fdf = malloc(sizeof(t_fdf) * winnb)))
+	if (!(fdf = malloc(sizeof(t_fdf) * (unsigned long)winnb)))
 		return (NULL);
 	fdf[winnb - 1].mlx = NULL;
 	if (!(mlx = mlx_init()))
