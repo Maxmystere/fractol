@@ -65,27 +65,6 @@ typedef struct	s_cam{
 	int				iter;
 }				t_cam;
 
-typedef struct	s_fdf{
-	void	*mlx;
-	void	*win;
-	t_tab	keys;
-	t_dot	mouse;
-	t_cam	cam;
-	void	*img;
-	int		*istr;
-	int		bpp;
-	int		s_l;
-	int		e;
-	t_win	p_win;
-	int		color;
-	int		fractype;
-}				t_fdf;
-
-typedef struct	s_th{
-	t_fdf	*fdf;
-	int		th;
-}				t_th;
-
 /*
 ** GPU Stuff
 */
@@ -96,8 +75,9 @@ typedef struct	s_gpu{
 	cl_uint					ptms;
 	cl_device_id			dvc;
 	cl_uint					dvcs;
-	size_t					srcsize;
 	cl_program				prog;
+	cl_context				c;
+	cl_command_queue		cq;
 	cl_kernel				k_color;
 	cl_context_properties	properties[3];
 }				t_gpu;
@@ -114,11 +94,31 @@ typedef struct	s_frcl{
 	int		color;
 }				t_frcl;
 
-int				gpu_calcul(t_frcl param, t_fdf *fdf, const char *src);
-
 /*
 ** End GPU Stuff
 */
+
+typedef struct	s_fdf{
+	void	*mlx;
+	void	*win;
+	t_tab	keys;
+	t_dot	mouse;
+	t_cam	cam;
+	void	*img;
+	int		*istr;
+	int		bpp;
+	int		s_l;
+	int		e;
+	t_win	p_win;
+	t_gpu	g;
+	int		color;
+	int		fractype;
+}				t_fdf;
+
+typedef struct	s_th{
+	t_fdf	*fdf;
+	int		th;
+}				t_th;
 
 void			show_menu(t_fdf *fdf);
 
@@ -143,6 +143,7 @@ t_fdf			*init_mlx(int winnb, char **winname);
 void			draw_mandel(t_fdf *fdf);
 void			draw_julia(t_fdf *fdf);
 void			draw_ship(t_fdf *fdf);
+int				gpu_calcul(t_frcl param, t_fdf *fdf, const char *src);
 
 void			draw_order(t_fdf *fdf, int x, int y, int c);
 void			draw_text(t_fdf *fdf, int x, int y);

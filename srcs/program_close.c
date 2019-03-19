@@ -26,6 +26,8 @@ int		close_hook(t_fdf *fdf)
 	mlx_destroy_image(fdf->mlx, fdf->img);
 	mlx_destroy_window(fdf->mlx, fdf->win);
 	fdf->win = NULL;
+	clReleaseContext(fdf->g.c);
+	clReleaseCommandQueue(fdf->g.cq);
 	nwin = 0;
 	x = -fdf->p_win.nb;
 	while (fdf[x].mlx)

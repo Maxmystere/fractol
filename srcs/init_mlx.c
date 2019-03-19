@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/fractol.h"
+#define N NULL
 
 /*
 ** Put here initial camera value
@@ -22,6 +23,14 @@ static int		load_imgs(t_fdf *fdf)
 		return (-1);
 	fdf->istr = (int *)mlx_get_data_addr(fdf->img, &(fdf->bpp),
 												&(fdf->s_l), &(fdf->e));
+	clGetPlatformIDs(1, &fdf->g.ptm, &fdf->g.ptms);
+	clGetDeviceIDs(fdf->g.ptm, CL_DEVICE_TYPE_GPU,
+												1, &fdf->g.dvc, &fdf->g.dvcs);
+	fdf->g.properties[0] = CL_CONTEXT_PLATFORM;
+	fdf->g.properties[1] = (cl_context_properties)fdf->g.ptm;
+	fdf->g.properties[2] = 0;
+	fdf->g.c = clCreateContext(fdf->g.properties, 1, &fdf->g.dvc, N, N, N);
+	fdf->g.cq = clCreateCommandQueue(fdf->g.c, fdf->g.dvc, 0, N);
 	return (0);
 }
 
