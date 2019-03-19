@@ -34,6 +34,8 @@
 
 int	key_press(int key, t_fdf *fdf)
 {
+	if (key == 0)
+		return (0);
 	if (key == 53)
 		return (close_hook(fdf));
 	if (key == 35)

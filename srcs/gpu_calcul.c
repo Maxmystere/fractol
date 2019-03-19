@@ -40,6 +40,12 @@ static void	lil_gpu(t_fdf *fdf, const char *src, t_gpu tcl, t_frcl param)
 	clEnqueueNDRangeKernel(cq, tcl.k_color, 1, N, &worksize, N, 0, N, N);
 	clEnqueueReadBuffer(cq, mem2, CL_FALSE, 0, worksize, fdf->istr, 0, N, N);
 	clFinish(cq);
+	clReleaseKernel(tcl.k_color);
+	clReleaseMemObject(mem1);
+	clReleaseMemObject(mem2);
+	clReleaseCommandQueue(cq);
+	clReleaseContext(context);
+	clReleaseProgram(tcl.prog);
 }
 
 int			gpu_calcul(t_frcl param, t_fdf *fdf, const char *src)
