@@ -102,6 +102,12 @@ static void		lilmain(t_fdf *fdf, int x)
 		draw_julia(&(fdf[x]));
 	else if (fdf[x].fractype == BSHIP)
 		draw_ship(&(fdf[x]));
+	else if (fdf[x].fractype == DOUADY)
+		draw_douady(&(fdf[x]));
+	else if (fdf[x].fractype == GALAXY)
+		draw_glx(&(fdf[x]));
+	else if (fdf[x].fractype == TRICORN)
+		draw_tricorn(&(fdf[x]));
 	mlx_hook(fdf[x].win, 2, 0, key_press, &(fdf[x]));
 	mlx_hook(fdf[x].win, 3, 0, key_release, &(fdf[x]));
 	mlx_hook(fdf[x].win, 4, 0, mouse_press, &(fdf[x]));
@@ -117,8 +123,8 @@ int				main(int ac, char **av)
 
 	if (!(fdf = init_mlx(ac, av)))
 	{
-		ft_putstr("Usage: fractol [-m] mandelbrot [-j] julia [-b] burningship\
-\n");
+		ft_putstr("Usage: fractol\n\t[m] mandelbrot\n\t[j] julia\n\t\
+[b] burningship\n\t[d] douady\n\t[g] galaxy\n\t[t] tricorn\n");
 		return (-1);
 	}
 	x = -1;

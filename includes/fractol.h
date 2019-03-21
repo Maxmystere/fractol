@@ -33,6 +33,9 @@
 # define MANDEL 0
 # define JULIA 1
 # define BSHIP 2
+# define DOUADY 3
+# define GALAXY 4
+# define TRICORN 5
 
 typedef struct	s_dot{
 	double	x;
@@ -143,6 +146,10 @@ t_fdf			*init_mlx(int winnb, char **winname);
 void			draw_mandel(t_fdf *fdf);
 void			draw_julia(t_fdf *fdf);
 void			draw_ship(t_fdf *fdf);
+void			draw_douady(t_fdf *fdf);
+void			draw_glx(t_fdf *fdf);
+void			draw_tricorn(t_fdf *fdf);
+void			lil_drawer(t_fdf *fdf);
 int				gpu_calcul(t_frcl param, t_fdf *fdf, const char *src);
 
 void			draw_order(t_fdf *fdf, int x, int y, int c);

@@ -75,12 +75,7 @@ int	mouse_press(int button, int x, int y, t_fdf *fdf)
 	else if (button == 4 || button == 5)
 	{
 		move_iso(fdf, (button == 4 ? -4 : -5));
-		if (fdf->fractype == MANDEL)
-			draw_mandel(fdf);
-		else if (fdf->fractype == JULIA)
-			draw_julia(fdf);
-		else if (fdf->fractype == BSHIP)
-			draw_ship(fdf);
+		lil_drawer(fdf);
 		draw_text(fdf, 0, 0);
 		if (ft_nodesearch_int(fdf->keys, 46))
 			show_menu(fdf);

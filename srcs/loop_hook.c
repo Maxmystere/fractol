@@ -30,6 +30,22 @@
 ** 126 = up key
 */
 
+void			lil_drawer(t_fdf *fdf)
+{
+	if (fdf->fractype == MANDEL)
+		draw_mandel(fdf);
+	else if (fdf->fractype == JULIA)
+		draw_julia(fdf);
+	else if (fdf->fractype == BSHIP)
+		draw_ship(fdf);
+	else if (fdf->fractype == DOUADY)
+		draw_douady(fdf);
+	else if (fdf->fractype == GALAXY)
+		draw_glx(fdf);
+	else if (fdf->fractype == TRICORN)
+		draw_tricorn(fdf);
+}
+
 static void		lil_loop(t_fdf *fdf, int mkey, int willshowmenu)
 {
 	t_tab	pos;
@@ -48,12 +64,7 @@ static void		lil_loop(t_fdf *fdf, int mkey, int willshowmenu)
 		}
 		pos = pos->next;
 	}
-	if (fdf->fractype == MANDEL)
-		draw_mandel(fdf);
-	else if (fdf->fractype == JULIA)
-		draw_julia(fdf);
-	else if (fdf->fractype == BSHIP)
-		draw_ship(fdf);
+	lil_drawer(fdf);
 	draw_text(fdf, 0, 0);
 	if (willshowmenu)
 		show_menu(fdf);

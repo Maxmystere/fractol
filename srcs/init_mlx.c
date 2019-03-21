@@ -22,10 +22,10 @@ static int		load_imgs(t_fdf *fdf)
 	if (!(fdf->img = mlx_new_image(fdf->mlx, fdf->p_win.sx, fdf->p_win.sy)))
 		return (-1);
 	fdf->istr = (int *)mlx_get_data_addr(fdf->img, &(fdf->bpp),
-												&(fdf->s_l), &(fdf->e));
+										&(fdf->s_l), &(fdf->e));
 	clGetPlatformIDs(1, &fdf->g.ptm, &fdf->g.ptms);
 	clGetDeviceIDs(fdf->g.ptm, CL_DEVICE_TYPE_GPU,
-												1, &fdf->g.dvc, &fdf->g.dvcs);
+				1, &fdf->g.dvc, &fdf->g.dvcs);
 	fdf->g.properties[0] = CL_CONTEXT_PLATFORM;
 	fdf->g.properties[1] = (cl_context_properties)fdf->g.ptm;
 	fdf->g.properties[2] = 0;
@@ -55,23 +55,24 @@ static void		short_load(void *mlx, t_fdf *fdf, int v)
 
 static int		searchtype(t_fdf *fdf, char *winname, int v)
 {
-	if (!(ft_strcmp("-m", winname)))
-	{
+	if (!(ft_strcmp("m", winname)) || !(ft_strcmp("mandelbrot", winname)))
 		fdf[v].fractype = MANDEL;
-		return (1);
-	}
-	else if (!(ft_strcmp("-j", winname)))
-	{
+	else if (!(ft_strcmp("j", winname)) || !(ft_strcmp("julia", winname)))
 		fdf[v].fractype = JULIA;
-		return (1);
-	}
-	else if (!(ft_strcmp("-b", winname)))
-	{
+	else if (!(ft_strcmp("b", winname)) || !(ft_strcmp("burningship", winname)))
 		fdf[v].fractype = BSHIP;
-		return (1);
+	else if (!(ft_strcmp("d", winname)) || !(ft_strcmp("douady", winname)))
+		fdf[v].fractype = DOUADY;
+	else if (!(ft_strcmp("g", winname)) || !(ft_strcmp("galaxy", winname)))
+		fdf[v].fractype = GALAXY;
+	else if (!(ft_strcmp("t", winname)) || !(ft_strcmp("tricorn", winname)))
+		fdf[v].fractype = TRICORN;
+	else
+	{
+		fdf[v].fractype = -1;
+		return (0);
 	}
-	fdf[v].fractype = -1;
-	return (0);
+	return (1);
 }
 
 static int		load_all(void *mlx, t_fdf *fdf, int winnb, char **winname)

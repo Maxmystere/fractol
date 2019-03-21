@@ -25,7 +25,10 @@ SRC			=	./srcs/camera_movement.c \
 				./srcs/gpu_calcul.c \
 				./srcs/draw_mandel.c \
 				./srcs/draw_julia.c \
-				./srcs/draw_ship.c
+				./srcs/draw_ship.c \
+				./srcs/draw_douady.c \
+				./srcs/draw_galaxy.c \
+				./srcs/draw_tricorn.c
 
 OBJ				=	$(SRC:.c=.o)
 
